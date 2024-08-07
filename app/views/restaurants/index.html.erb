@@ -1,0 +1,45 @@
+<h1 class="text-center my-4">Restaurants</h1>
+
+<div class="container mb-4">
+  <%= link_to 'Add Restaurant', restaurant_new_path, class: 'btn btn-primary' %>
+</div>
+
+<div class="container">
+  <div class="row">
+    <% @restaurants.each do |restaurant| %>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <%
+          # Manually specify image URLs based on restaurant categories
+          image_url = case restaurant.category
+                      when "chinese"
+                        "https://example.com/chinese.jpg"
+                      when "italian"
+                        "https://example.com/italian.jpg"
+                      when "japanese"
+                        "https://example.com/japanese.jpg"
+                      when "french"
+                        "https://example.com/french.jpg"
+                      when "belgian"
+                        "https://example.com/belgian.jpg"
+                      else
+                        "https://example.com/default.jpg" # Fallback image
+                      end
+          %>
+          <%= image_tag(image_url, class: 'card-img-top', alt: restaurant.name, style: 'object-fit: cover; height: 200px; width: 100%;') %>
+          <div class="card-body">
+            <h5 class="card-title"><%= restaurant.name %></h5>
+            <p class="card-text"><%= restaurant.address %></p>
+            <p class="card-text"><small class="text-muted">Category: <%= restaurant.category %></small></p>
+            <%= link_to restaurant_reviews_index_path(restaurant), class: 'btn btn-outline-secondary' do %>
+              <i class="fas fa-comments"></i>
+            <% end %>
+            <%= link_to new_restaurant_review_path(restaurant), class: 'btn btn-outline-primary ml-2' do %>
+              <i class="fas fa-plus"></i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
